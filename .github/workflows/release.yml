@@ -1,0 +1,25 @@
+name: Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install npm dependencies
+        run: npm install 
+      - name: Build extension
+        run: npm run zip
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            build/Stylichess-*
